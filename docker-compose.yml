@@ -4,5 +4,5 @@ services:
     build:
       context: .
     volumes:
-      - /app/vendor
-      - ./:/app:cached
+      - .:/app:cached
+      - $HOME/.composer:/root/.composer:cached
