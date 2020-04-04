@@ -9,5 +9,23 @@
             "email": "smudja06@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "5mudg3r\\ETL\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "5mudg3r\\ETL\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "prefer-stable": true
 }
