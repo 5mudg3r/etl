@@ -1,0 +1,13 @@
+{
+    "name": "5mudg3r/etl",
+    "description": "An ETL library for PHP.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "5mudg3r",
+            "email": "smudja06@gmail.com"
+        }
+    ],
+    "require": {}
+}
