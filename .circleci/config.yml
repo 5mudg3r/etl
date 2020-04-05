@@ -22,9 +22,9 @@ jobs:
           paths:
             - docker-cache
   phpunit:
-    docker:
-      - image: docker:stable-git
+    executor: docker/docker
     steps:
+      - setup_remote_docker
       - attach_workspace:
           at: .
       - run:
