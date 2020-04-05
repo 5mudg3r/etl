@@ -11,8 +11,10 @@ return PhpCsFixer\Config::create()
         'concat_space' => [
             'spacing' => 'one',
         ],
+        'declare_strict_types' => true,
         'explicit_indirect_variable' => false,
         'explicit_string_variable' => false,
+        'final_class' => true,
         'increment_style' => false,
         'multiline_whitespace_before_semicolons' => [
             'strategy' => 'no_multi_line',
@@ -27,4 +29,5 @@ return PhpCsFixer\Config::create()
         'unary_operator_spaces' => false,
         'yoda_style' => false,
     ])
+    ->setRiskyAllowed(true)
     ->setFinder($finder);
