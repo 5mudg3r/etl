@@ -44,39 +44,39 @@ jobs:
     executor: docker/docker
     steps:
       - docker_run:
-          name: Run phpunit
+          description: Run phpunit
           command: vendor/bin/phpunit
   php-cs-fixer:
     executor: docker/docker
     steps:
       - docker_run:
-          name: Run php-cs-fixer
+          description: Run php-cs-fixer
           command: vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no
   security-checker:
     executor: docker/docker
     steps:
       - docker_run:
-          name: Run security-checker
+          description: Run security-checker
           command: vendor/bin/security-checker security:check
   phpstan:
     executor: docker/docker
     steps:
       - docker_run:
-          name: Run phpstan
+          description: Run phpstan
           command: vendor/bin/phpstan analyze
   deptrac:
     executor: docker/docker
     steps:
       - docker_run:
-          name: Run deptrac
+          description: Run deptrac
           command: vendor/bin/deptrac
 commands:
   docker_run:
     description: Run a docker command inside the image built in the build step
     parameters:
-      name:
+      description:
         type: string
-        description: A friendly name for the step
+        description: A description for the step
       command:
         type: string
         description: The command to run inside the docker image
