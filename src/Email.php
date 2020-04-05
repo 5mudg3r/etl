@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Smudja\ETL;
@@ -16,14 +17,14 @@ final class Email
         $this->email = $email;
     }
 
-    public static function fromString(string $email): self
-    {
-        return new self($email);
-    }
-
     public function __toString(): string
     {
         return $this->email;
+    }
+
+    public static function fromString(string $email): self
+    {
+        return new self($email);
     }
 
     private function ensureIsValidEmail(string $email): void
