@@ -85,7 +85,7 @@ commands:
       - attach_workspace:
           at: .
       - run:
-          name: << parameters.name >>
+          name: << parameters.description >>
           command: |
             docker load < docker-cache/latest.tar
             docker run smudja/etl:latest << parameters.command >>
