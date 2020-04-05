@@ -18,6 +18,7 @@
     "phpstan/phpstan-phpunit": "^0.12.6",
     "phpstan/phpstan-strict-rules": "^0.12.2",
     "phpunit/phpunit": "^9",
+    "sensiolabs-de/deptrac-shim": "^0.6.0",
     "sensiolabs/security-checker": "^6.0"
   },
   "autoload": {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Smudja\ETL;
+namespace Smudja\ETL\Domain;
 
 use InvalidArgumentException;
 

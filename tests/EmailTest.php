@@ -7,7 +7,7 @@ namespace Smudja\ETL\Tests;
 use InvalidArgumentException;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use Smudja\ETL\Email;
+use Smudja\ETL\Domain\Email;
 
 final class EmailTest extends TestCase
 {
