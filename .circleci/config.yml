@@ -28,15 +28,71 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Run tests
+          name: Run phpunit
           command: |
             docker load < docker-cache/latest.tar
             docker run smudja/etl:latest vendor/bin/phpunit
+  php-cs-fixer:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run php-cs-fixer
+          command: |
+            docker load < docker-cache/latest.tar
+            docker run smudja/etl:latest vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no
+  security-checker:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run security-checker
+          command: |
+            docker load < docker-cache/latest.tar
+            docker run smudja/etl:latest vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no
+  phpstan:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run phpstan
+          command: |
+            docker load < docker-cache/latest.tar
+            docker run smudja/etl:latest vendor/bin/phpstan analyze
+  deptrac:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run deptrac
+          command: |
+            docker load < docker-cache/latest.tar
+            docker run smudja/etl:latest vendor/bin/deptrac
 
 workflows:
   push:
     jobs:
       - build
       - phpunit:
+          requires:
+            - build
+      - php-cs-fixer:
+          requires:
+            - build
+      - security-checker:
+          requires:
+            - build
+      - phpstan:
+          requires:
+            - build
+      - deptrac:
           requires:
             - build
