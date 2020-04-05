@@ -31,7 +31,7 @@ jobs:
           name: Run tests
           command: |
             docker load < docker-cache/latest.tar
-            docker run -d smudja/etl:latest vendor/bin/phpunit
+            docker run smudja/etl:latest vendor/bin/phpunit
 
 workflows:
   push:
