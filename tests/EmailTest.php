@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Smudja\ETL\Tests;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Smudja\ETL\Email;
 
@@ -12,9 +13,9 @@ final class EmailTest extends TestCase
 {
     public function test_can_be_created_from_valid_email_address(): void
     {
-        $this->assertInstanceOf(
-            Email::class,
-            Email::fromString('user@example.com')
+        Assert::assertEquals(
+            'user@example.com',
+            Email::fromString('user@example.com')->__toString()
         );
     }
 
@@ -27,7 +28,7 @@ final class EmailTest extends TestCase
 
     public function test_can_be_used_as_string(): void
     {
-        $this->assertEquals(
+        Assert::assertEquals(
             'user@example.com',
             Email::fromString('user@example.com')
         );
