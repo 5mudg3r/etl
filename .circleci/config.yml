@@ -53,7 +53,7 @@ jobs:
           name: Run security-checker
           command: |
             docker load < docker-cache/latest.tar
-            docker run smudja/etl:latest vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no
+            docker run smudja/etl:latest vendor/bin/security-checker security:check
   phpstan:
     executor: docker/docker
     steps:
