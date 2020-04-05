@@ -1,0 +1,13 @@
+name: Pull Request
+on: push
+
+jobs:
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build image
+        run: docker image build -t app .
+      - name: Run tests
+        run: docker run app ./vendor/bin/phpunit
+
