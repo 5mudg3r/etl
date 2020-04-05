@@ -22,7 +22,8 @@ jobs:
           paths:
             - docker-cache
   phpunit:
-    executor: docker/docker
+    docker:
+      - image: docker/stable-git
     steps:
       - attach_workspace:
           at: .
