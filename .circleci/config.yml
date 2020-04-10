@@ -59,7 +59,7 @@ jobs:
       - run:
           name: Run cs fixer
           command: |
-            docker run smudja/etl:latest vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no --format junit > results.xml
+            docker run --name app smudja/etl:latest vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no --format junit > results.xml
             mkdir -p test-results/php-cs-fixer
             docker cp app:/app/results.xml test-results/php-cs-fixer
   security-checker:
@@ -76,7 +76,7 @@ jobs:
       - run:
           name: Run static analysis
           command: |
-            docker run smudja/etl:latest vendor/bin/phpstan analyze --error-format junit --no-progress > results.xml
+            docker run --name app smudja/etl:latest vendor/bin/phpstan analyze --error-format junit --no-progress > results.xml
             mkdir -p test-results/phpstan
             docker cp app:/app/results.xml test-results/phpstan
   deptrac:
@@ -86,7 +86,7 @@ jobs:
       - run:
           name: Run dependency analysis
           command: |
-            docker run smudja/etl:latest vendor/bin/deptrac --formatter-junit=true --formatter-junit-dump-xml=results.xml
+            docker run --name app smudja/etl:latest vendor/bin/deptrac --formatter-junit=true --formatter-junit-dump-xml=results.xml
             mkdir -p test-results/deptrac
             docker cp app:/app/results.xml test-results/deptrac
 commands:
