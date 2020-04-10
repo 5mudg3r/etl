@@ -47,8 +47,8 @@ jobs:
       - run:
           name: Run tests
           command: |
-              - docker run --name app smudja/etl:latest /bin/sh -c "mkdir -p test-reports/phpunit && ./vendor/bin/phpunit --log-junit ./test-reports/phpunit/phpunit.xml"
-              - docker cp app:/app/test-reports .
+              docker run --name app smudja/etl:latest /bin/sh -c "mkdir -p test-reports/phpunit && ./vendor/bin/phpunit --log-junit ./test-reports/phpunit/phpunit.xml"
+              docker cp app:/app/test-reports .
   php-cs-fixer:
     executor: docker/docker
     steps:
