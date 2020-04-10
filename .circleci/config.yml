@@ -62,6 +62,8 @@ jobs:
             docker run --name app smudja/etl:latest vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no --format junit > results.xml
             mkdir -p test-results/php-cs-fixer
             docker cp app:/app/results.xml test-results/php-cs-fixer
+      - store_test_results:
+          path: test-results
   security-checker:
     executor: docker/docker
     steps:
@@ -79,6 +81,8 @@ jobs:
             docker run --name app smudja/etl:latest vendor/bin/phpstan analyze --error-format junit --no-progress > results.xml
             mkdir -p test-results/phpstan
             docker cp app:/app/results.xml test-results/phpstan
+      - store_test_results:
+          path: test-results
   deptrac:
     executor: docker/docker
     steps:
@@ -89,6 +93,8 @@ jobs:
             docker run --name app smudja/etl:latest vendor/bin/deptrac --formatter-junit=true --formatter-junit-dump-xml=results.xml
             mkdir -p test-results/deptrac
             docker cp app:/app/results.xml test-results/deptrac
+      - store_test_results:
+          path: test-results
 commands:
   import_image:
     description: Import the docker image from the build step
