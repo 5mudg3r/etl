@@ -1,11 +1,11 @@
 {
-  "name": "5mudg3r/etl",
+  "name": "smudger/etl",
   "description": "An ETL library for PHP.",
   "type": "library",
   "license": "MIT",
   "authors": [
     {
-      "name": "5mudg3r",
+      "name": "smudger",
       "email": "smudja06@gmail.com"
     }
   ],
@@ -23,12 +23,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Smudja\\ETL\\": "src/"
+      "Smudger\\ETL\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Smudja\\ETL\\Tests\\": "tests/"
+      "Smudger\\ETL\\Tests\\": "tests/"
     }
   },
   "config": {

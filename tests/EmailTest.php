@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Smudja\ETL\Tests;
+namespace Smudger\ETL\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use Smudja\ETL\Domain\Email;
+use Smudger\ETL\Domain\Email;
 
 final class EmailTest extends TestCase
 {
