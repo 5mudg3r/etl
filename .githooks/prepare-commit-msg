@@ -1,0 +1,8 @@
+#!/bin/bash
+set -u            # fail when variable is unbound
+
+GITHUB_ISSUE_TAG=$(git rev-parse --abbrev-ref HEAD 2> /dev/null | grep -oE "#[0-9]+")
+
+[[ ! -z "$GITHUB_ISSUE_TAG" ]] && echo "$GITHUB_ISSUE_TAG: $(cat $1)" > $1
+
+exit 0;

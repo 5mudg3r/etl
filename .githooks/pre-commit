@@ -1,0 +1,16 @@
+#!/bin/bash
+set -u            # fail when variable is unbound
+
+BRANCH_NAME="$(git rev-parse --abbrev-ref HEAD)"
+
+VALID_BRANCH_REGEX="^(feature|fix)\/#[0-9]+-[a-zA-Z0-9-]+$"
+
+ERROR_MESSAGE="Invalid branch name. Branch name must satisfy the following regex: $VALID_BRANCH_REGEX."
+
+if [[ ! $BRANCH_NAME =~ $VALID_BRANCH_REGEX ]]
+then
+    echo "$ERROR_MESSAGE"
+    exit 1
+fi
+
+exit 0

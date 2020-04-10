@@ -1,0 +1,11 @@
+#!/bin/bash
+set -u            # fail when variable is unbound
+
+MESSAGE=$(<$1)
+
+GITHUB_ISSUE_REGEX="^#[0-9]+: "
+
+if [[ ! $MESSAGE =~ $GITHUB_ISSUE_REGEX ]]; then
+    echo -e "Your commit message doesn't match the accepted format: '#1234: <Description of commit>'";
+    exit 1;
+fi
