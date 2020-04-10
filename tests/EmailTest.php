@@ -33,4 +33,9 @@ final class EmailTest extends TestCase
             Email::fromString('user@example.com')
         );
     }
+
+    public function test_it_fails(): void
+    {
+        $this->fail('oh no');
+    }
 }
