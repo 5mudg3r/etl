@@ -43,49 +43,45 @@ jobs:
   phpunit:
     executor: docker/docker
     steps:
-      - docker_run:
-          description: Run phpunit
-          command: vendor/bin/phpunit
+      - import_image
+      - run:
+          name: Run tests
+          command: docker run smudja/etl:latest vendor/bin/phpunit
   php-cs-fixer:
     executor: docker/docker
     steps:
-      - docker_run:
-          description: Run php-cs-fixer
-          command: vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no
+      - import_image
+      - run:
+          name: Run cs fixer
+          command: docker run smudja/etl:latest vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no
   security-checker:
     executor: docker/docker
     steps:
-      - docker_run:
-          description: Run security-checker
-          command: vendor/bin/security-checker security:check
+      - import_image
+      - run:
+          name: Run security checker
+          command: docker run smudja/etl:latest vendor/bin/security-checker security:check
   phpstan:
     executor: docker/docker
     steps:
-      - docker_run:
-          description: Run phpstan
-          command: vendor/bin/phpstan analyze
+      - import_image
+      - run:
+          name: Run static analysis
+          command: docker run smudja/etl:latest vendor/bin/phpstan analyze
   deptrac:
     executor: docker/docker
     steps:
-      - docker_run:
-          description: Run deptrac
-          command: vendor/bin/deptrac
+      - import_image
+      - run:
+          name: Run dependency analysis
+          command: docker run smudja/etl:latest vendor/bin/deptrac
 commands:
-  docker_run:
-    description: Run a docker command inside the image built in the build step
-    parameters:
-      description:
-        type: string
-        description: A description for the step
-      command:
-        type: string
-        description: The command to run inside the docker image
+  import_image:
+    description: Import the docker image from the build step
     steps:
       - setup_remote_docker
       - attach_workspace:
           at: .
       - run:
-          name: << parameters.description >>
-          command: |
-            docker load < docker-cache/latest.tar
-            docker run smudja/etl:latest << parameters.command >>
+          name: Load image
+          command: docker load < docker-cache/latest.tar
