@@ -45,8 +45,16 @@ jobs:
     steps:
       - import_image
       - run:
+          name: Start app container
+          command: |
+              docker create --name app smudja/etl:latest
+              docker start app
+      - run:
           name: Run tests
-          command: docker run smudja/etl:latest vendor/bin/phpunit
+          command: |
+              - docker exec app mkdir -p test-reports/phpunit
+              - docker exec app ./vendor/bin/phpunit --log-junit ./test-reports/phpunit/phpunit.xml
+              - docker cp app:/app/test-reports .
   php-cs-fixer:
     executor: docker/docker
     steps:
