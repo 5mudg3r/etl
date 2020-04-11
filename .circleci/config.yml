@@ -43,49 +43,77 @@ jobs:
   phpunit:
     executor: docker/docker
     steps:
-      - docker_run:
-          description: Run phpunit
-          command: vendor/bin/phpunit
+      - import_image
+      - run:
+          name: Run tests
+          command: |
+              docker run --name app smudja/etl:latest vendor/bin/phpunit --log-junit results.xml
+      - copy_results_from_docker:
+          folder: phpunit
+      - store_test_results:
+          path: test-results
   php-cs-fixer:
     executor: docker/docker
     steps:
-      - docker_run:
-          description: Run php-cs-fixer
-          command: vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no
+      - import_image
+      - run:
+          name: Run cs fixer
+          command: |
+            mkdir -p test-results/php-cs-fixer
+            docker run --name app smudja/etl:latest vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no --format junit > test-results/php-cs-fixer/results.xml
+      - store_test_results:
+          path: test-results
   security-checker:
     executor: docker/docker
     steps:
-      - docker_run:
-          description: Run security-checker
-          command: vendor/bin/security-checker security:check
+      - import_image
+      - run:
+          name: Run security checker
+          command: docker run smudja/etl:latest vendor/bin/security-checker security:check
   phpstan:
     executor: docker/docker
     steps:
-      - docker_run:
-          description: Run phpstan
-          command: vendor/bin/phpstan analyze
+      - import_image
+      - run:
+          name: Run static analysis
+          command: |
+            mkdir -p test-results/phpstan
+            docker run --name app smudja/etl:latest vendor/bin/phpstan analyze --error-format junit --no-progress > test-results/phpstan/results.xml
+      - store_test_results:
+          path: test-results
   deptrac:
     executor: docker/docker
     steps:
-      - docker_run:
-          description: Run deptrac
-          command: vendor/bin/deptrac
+      - import_image
+      - run:
+          name: Run dependency analysis
+          command: |
+            mkdir -p test-results/deptrac
+            docker run --name app smudja/etl:latest vendor/bin/deptrac --formatter-junit=true --formatter-junit-dump-xml=results.xml
+      - copy_results_from_docker:
+          folder: deptrac
+      - store_test_results:
+          path: test-results
 commands:
-  docker_run:
-    description: Run a docker command inside the image built in the build step
-    parameters:
-      description:
-        type: string
-        description: A description for the step
-      command:
-        type: string
-        description: The command to run inside the docker image
+  import_image:
+    description: Import the docker image from the build step
     steps:
       - setup_remote_docker
       - attach_workspace:
           at: .
       - run:
-          name: << parameters.description >>
+          name: Load image
+          command: docker load < docker-cache/latest.tar
+  copy_results_from_docker:
+    description: Copy test results from a docker container
+    parameters:
+      folder:
+        type: string
+        description: Host folder to store test results in
+    steps:
+      - run:
+          name: Copy test results
+          when: always
           command: |
-            docker load < docker-cache/latest.tar
-            docker run smudja/etl:latest << parameters.command >>
+            mkdir -p test-results/<< parameters.folder >>
+            docker cp app:/app/results.xml test-results/<< parameters.folder >>
