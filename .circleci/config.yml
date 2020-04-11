@@ -48,12 +48,8 @@ jobs:
           name: Run tests
           command: |
               docker run --name app smudja/etl:latest vendor/bin/phpunit --log-junit results.xml
-      - run:
-          name: Copy test results
-          when: always
-          command: |
-              mkdir -p test-results/phpunit
-              docker cp app:/app/results.xml test-results/phpunit
+      - copy_results_from_docker:
+          folder: phpunit
       - store_test_results:
           path: test-results
   php-cs-fixer:
@@ -94,12 +90,8 @@ jobs:
           command: |
             mkdir -p test-results/deptrac
             docker run --name app smudja/etl:latest vendor/bin/deptrac --formatter-junit=true --formatter-junit-dump-xml=results.xml
-      - run:
-          name: Copy test results
-          when: always
-          command: |
-              mkdir -p test-results/deptrac
-              docker cp app:/app/results.xml test-results/deptrac
+      - copy_results_from_docker:
+          folder: deptrac
       - store_test_results:
           path: test-results
 commands:
@@ -112,3 +104,16 @@ commands:
       - run:
           name: Load image
           command: docker load < docker-cache/latest.tar
+  copy_results_from_docker:
+    description: Copy test results from a docker container
+    parameters:
+      folder:
+        type: string
+        description: Host folder to store test results in
+    steps:
+      - run:
+          name: Copy test results
+          when: always
+          command: |
+            mkdir -p test-results/<< parameters.folder >>
+            docker cp app:/app/results.xml test-results/<< parameters.folder >>
