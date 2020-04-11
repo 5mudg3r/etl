@@ -28,14 +28,14 @@ jobs:
       - checkout
       - docker/check
       - docker/build:
-          image: smudja/etl
+          image: smudger/app
           tag: '$CIRCLE_SHA1,latest'
       - run:
           name: Save Docker images
           command: |
             mkdir docker-cache
-            docker save -o docker-cache/$CIRCLE_SHA1.tar smudja/etl:$CIRCLE_SHA1
-            docker save -o docker-cache/latest.tar smudja/etl:latest
+            docker save -o docker-cache/$CIRCLE_SHA1.tar smudger/app:$CIRCLE_SHA1
+            docker save -o docker-cache/latest.tar smudger/app:latest
       - persist_to_workspace:
           root: .
           paths:
@@ -47,7 +47,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-              docker run --name app smudja/etl:latest vendor/bin/phpunit --log-junit results.xml
+              docker run --name app smudger/app:latest vendor/bin/phpunit --log-junit results.xml
       - copy_results_from_docker:
           folder: phpunit
       - store_test_results:
@@ -60,7 +60,7 @@ jobs:
           name: Run cs fixer
           command: |
             mkdir -p test-results/php-cs-fixer
-            docker run --name app smudja/etl:latest vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no --format junit > test-results/php-cs-fixer/results.xml
+            docker run --name app smudger/app:latest vendor/bin/php-cs-fixer fix -v --dry-run --using-cache=no --format junit > test-results/php-cs-fixer/results.xml
       - store_test_results:
           path: test-results
   security-checker:
@@ -69,7 +69,7 @@ jobs:
       - import_image
       - run:
           name: Run security checker
-          command: docker run smudja/etl:latest vendor/bin/security-checker security:check
+          command: docker run smudger/app:latest vendor/bin/security-checker security:check
   phpstan:
     executor: docker/docker
     steps:
@@ -78,7 +78,7 @@ jobs:
           name: Run static analysis
           command: |
             mkdir -p test-results/phpstan
-            docker run --name app smudja/etl:latest vendor/bin/phpstan analyze --error-format junit --no-progress > test-results/phpstan/results.xml
+            docker run --name app smudger/app:latest vendor/bin/phpstan analyze --error-format junit --no-progress > test-results/phpstan/results.xml
       - store_test_results:
           path: test-results
   deptrac:
@@ -89,7 +89,7 @@ jobs:
           name: Run dependency analysis
           command: |
             mkdir -p test-results/deptrac
-            docker run --name app smudja/etl:latest vendor/bin/deptrac --formatter-junit=true --formatter-junit-dump-xml=results.xml
+            docker run --name app smudger/app:latest vendor/bin/deptrac --formatter-junit=true --formatter-junit-dump-xml=results.xml
       - copy_results_from_docker:
           folder: deptrac
       - store_test_results:
