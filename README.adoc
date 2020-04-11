@@ -1,8 +1,18 @@
-= ETL
+= PHP Project Template
 
-An ETL library for PHP.
+A starter template for scaffolding new PHP projects quickly. Includes configuration for the following tooling.
+
+* PHP CS Fixer
+* PHPUnit
+* PHPStan
+* Deptrac
+* Security Checker
+* Circle CI
+* Git Hooks
 
 == Getting Started
+
+To quickly scaffold a new PHP project from this template, simply find and replace `REPO_NAME` with the name of the new project and link your repository to Circle CI.
 
 ==== Project Dependencies
 

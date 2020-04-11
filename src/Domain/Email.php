@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Smudger\ETL\Domain;
+namespace Smudger\REPO_NAME\Domain;
 
 use InvalidArgumentException;
 

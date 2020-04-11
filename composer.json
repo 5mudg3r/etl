@@ -1,12 +1,12 @@
 {
-  "name": "smudger/etl",
-  "description": "An ETL library for PHP.",
+  "name": "smudger/REPO_NAME",
+  "description": "A starter template for new PHP projects",
   "type": "library",
   "license": "MIT",
   "authors": [
     {
       "name": "smudger",
-      "email": "smudja06@gmail.com"
+      "email": "15144861+smudger@users.noreply.github.com"
     }
   ],
   "require": {
@@ -23,12 +23,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Smudger\\ETL\\": "src/"
+      "Smudger\\REPO_NAME\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Smudger\\ETL\\Tests\\": "tests/"
+      "Smudger\\REPO_NAME\\Tests\\": "tests/"
     }
   },
   "config": {
