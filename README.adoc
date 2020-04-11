@@ -1,4 +1,4 @@
-= ETL
+= ETL image:https://circleci.com/gh/smudger/template-php.svg?style=svg["smudger", link="https://circleci.com/gh/smudger/template-php"]
 
 An ETL library for PHP.
 
