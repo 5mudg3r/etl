@@ -48,7 +48,7 @@ jobs:
           name: Run tests
           command: |
               mkdir -p test-results/phpunit
-              docker run --name app smudja/etl:latest /bin/sh -c "vendor/bin/phpunit --log-junit results.xml ; cat results.xml" > test-results/phpunit/results.xml
+              docker run --name app smudja/etl:latest /bin/sh -o pipefail -c "vendor/bin/phpunit --log-junit results.xml ; cat results.xml" > test-results/phpunit/results.xml
       - store_test_results:
           path: test-results
   php-cs-fixer:
@@ -88,7 +88,7 @@ jobs:
           name: Run dependency analysis
           command: |
             mkdir -p test-results/deptrac
-            docker run --name app smudja/etl:latest /bin/sh -c "vendor/bin/deptrac --formatter-junit=true --formatter-junit-dump-xml=results.xml ; cat results.xml" > test-results/deptrac/results.xml
+            docker run --name app smudja/etl:latest /bin/sh -o pipefail -c "vendor/bin/deptrac --formatter-junit=true --formatter-junit-dump-xml=results.xml ; cat results.xml" > test-results/deptrac/results.xml
       - store_test_results:
           path: test-results
 commands:
