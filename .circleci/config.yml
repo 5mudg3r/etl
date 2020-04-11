@@ -48,11 +48,7 @@ jobs:
           name: Run tests
           command: |
               mkdir -p test-results/phpunit
-              docker run --name app smudja/etl:latest vendor/bin/phpunit --log-junit results.xml
-      - run:
-          name: Copy test results
-          command: |
-              docker cp app:/app/results.xml test-results/phpunit
+              docker run -v test-results/phpunit:/tmp --name app smudja/etl:latest vendor/bin/phpunit --log-junit /tmp/results.xml
       - store_test_results:
           path: test-results
   php-cs-fixer:
