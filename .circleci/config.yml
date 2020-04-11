@@ -93,7 +93,13 @@ jobs:
           name: Run dependency analysis
           command: |
             mkdir -p test-results/deptrac
-            docker run --name app smudja/etl:latest /bin/sh -o pipefail -c "vendor/bin/deptrac --formatter-junit=true --formatter-junit-dump-xml=results.xml ; cat results.xml" > test-results/deptrac/results.xml
+            docker run --name app smudja/etl:latest vendor/bin/deptrac --formatter-junit=true --formatter-junit-dump-xml=results.xml
+      - run:
+          name: Copy test results
+          when: always
+          command: |
+              mkdir -p test-results/deptrac
+              docker cp app:/app/results.xml test-results/deptrac
       - store_test_results:
           path: test-results
 commands:
