@@ -48,7 +48,11 @@ jobs:
           name: Run tests
           command: |
               mkdir -p test-results/phpunit
-              docker run --name app smudja/etl:latest /bin/sh -o pipefail -c "vendor/bin/phpunit --log-junit results.xml ; cat results.xml" > test-results/phpunit/results.xml
+              docker run --name app smudja/etl:latest vendor/bin/phpunit --log-junit results.xml
+      - run:
+          name: Copy test results
+          command: |
+              docker cp app:/app/results.xml test-results/phpunit
       - store_test_results:
           path: test-results
   php-cs-fixer:
