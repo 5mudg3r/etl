@@ -26,7 +26,7 @@ docker-compose run app composer install
 The tests can be run using the following command.
 
 [source,sh]
-docker-compose run app ./vendor/bin/phpunit
+docker-compose run app composer test
 
 ==== Git Hooks
 
